@@ -35,7 +35,7 @@ const verifyToken = async (req, res, next)=> {
        }
        const token = authHeader.split(" ")[1]
        if(!token){
-        return res.status(401).json({ message: "Unauthorized" });
+        return res.status(401).json({ message: "You Are Not Authorized Person" });
        }
 
       try{
