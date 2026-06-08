@@ -83,7 +83,7 @@ async function run() {
   const idea = req.body;
 
   if (!idea.userEmail) {
-    return res.status(400).send({ message: "userEmail is required" });
+    return res.status(400).send({ message: "must be userEmail is required" });
   }
 
   const newIdea = {
@@ -146,6 +146,7 @@ app.get("/my-ideas", verifyToken, async (req, res) => {
   );
   res.send(result);
 });
+
 
 
   app.delete('/comments/:id', async (req, res)=>{
