@@ -61,10 +61,40 @@ async function run() {
     const commentsCollection = db.collection("comments");
 
 
-    app.get('/ideas', async (req, res) =>{
-       const ideas = await ideasCollection.find().toArray();
-        res.send(ideas);
-    })
+  app.get('/ideas', async (req, res) => {
+  const { search, category, startDate, endDate } = req.query;
+
+  let query = {};
+
+  
+  if (search) {
+    query.title = {
+      $regex: search,
+      $options: "i",
+    };
+  }
+
+
+  if (category) {
+    query.category = category;
+  }
+
+  
+  if (startDate || endDate) {
+    query.createdAt = {};
+
+    if (startDate) {
+      query.createdAt.$gte = new Date(startDate);
+    }
+
+    if (endDate) {
+      query.createdAt.$lte = new Date(endDate);
+    }
+  }
+
+  const ideas = await ideasCollection.find(query).toArray();
+  res.send(ideas);
+});
 
     app.get('/featured', async (req, res)=>{
       const featuredIdeas = await ideasCollection.find().limit(6);
