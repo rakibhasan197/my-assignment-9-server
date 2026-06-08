@@ -136,7 +136,24 @@ app.get("/my-ideas", verifyToken, async (req, res) => {
     })
 
 
-  
+    app.patch('/comments/:id', async (req, res) => {
+  const { id } = req.params;
+  const { comment } = req.body;
+
+  const result = await commentsCollection.updateOne(
+    { _id: new ObjectId(id) },
+    { $set: { comment} }
+  );
+  res.send(result);
+});
+
+
+  app.delete('/comments/:id', async (req, res)=>{
+    const {id} = req.params;
+    const result = await commentsCollection.deleteOne({_id: new ObjectId(id)});
+    res.send(result);
+  })
+
     
 
     await client.db("admin").command({ ping: 1 });
